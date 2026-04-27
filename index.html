@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro Educacional Pereira da Costa</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { font-family: 'Open Sans', sans-serif; background: #04081a; color: #fff; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+/* ── Tokens ── */
+:root {
+  --navy:       #1B2464;
+  --navy-mid:   #111840;
+  --navy-deep:  #04081a;
+  --green:      #8DC63F;
+  --green-glow: rgba(141,198,63,0.25);
+  --green-dark: #6a9e22;
+  --white:      #ffffff;
+  --muted:      rgba(255,255,255,0.55);
+  --max-w:      1180px;
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 48px; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1); }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1); }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+.reveal-delay-4 { transition-delay: 0.5s; }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Montserrat', sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 16px 34px; border-radius: 6px; cursor: pointer;
+  border: none; transition: all 0.2s ease;
+}
+.btn-green {
+  background: var(--green); color: #fff;
+  box-shadow: 0 0 0 0 rgba(141,198,63,0.5);
+  animation: pulse-btn 2.5s infinite;
+}
+.btn-green:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(141,198,63,0.4); animation: none; }
+@keyframes pulse-btn {
+  0%   { box-shadow: 0 0 0 0 rgba(141,198,63,0.55); }
+  60%  { box-shadow: 0 0 0 14px rgba(141,198,63,0); }
+  100% { box-shadow: 0 0 0 0 rgba(141,198,63,0); }
+}
+.btn-outline-white {
+  background: transparent; color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.4);
+}
+.btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.07); }
+.btn-navy { background: var(--navy); color: #fff; }
+.btn-navy:hover { background: var(--navy-mid); transform: translateY(-2px); }
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s;
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 72px;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { height: 46px; }
+.nav-logo-text { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--navy); line-height: 1.4; }
+.nav-logo-text span { color: var(--green); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; color: var(--navy); letter-spacing: 0.04em; transition: color 0.15s; }
+.nav-links a:hover { color: var(--green); }
+.nav-cta { background: var(--green) !important; color: #fff !important; padding: 9px 20px; border-radius: 5px; }
+.nav-cta:hover { background: var(--green-dark) !important; }
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center;
+  overflow: hidden; padding: 120px 0 80px;
+}
+#hero-canvas {
+  position: absolute; inset: 0; z-index: 0;
+}
+.hero-gradient {
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(27,36,100,0.35) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 50% at 20% 80%, rgba(141,198,63,0.08) 0%, transparent 60%);
+}
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center; }
+.hero-content { }
+.hero-img { border-radius: 16px; overflow: hidden; position: relative; }
+.hero-img img { width: 100%; height: 380px; object-fit: cover; border-radius: 16px; display: block; }
+.hero-img-overlay { position: absolute; inset: 0; border-radius: 16px; background: linear-gradient(180deg, transparent 60%, rgba(4,8,26,0.5) 100%); }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(141,198,63,0.12); border: 1px solid rgba(141,198,63,0.3);
+  border-radius: 100px; padding: 6px 16px; margin-bottom: 32px;
+}
+.hero-pill-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: blink 1.8s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.hero-pill span { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+#hero h1 {
+  font-family: 'Montserrat', sans-serif; font-size: clamp(38px, 5vw, 62px);
+  font-weight: 900; line-height: 1.08; color: #fff;
+  letter-spacing: -0.02em; margin-bottom: 24px; text-wrap: pretty;
+}
+#hero h1 em { font-style: normal; color: var(--green); }
+.hero-sub {
+  font-size: 17px; color: var(--muted); line-height: 1.7;
+  margin-bottom: 40px; max-width: 520px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.hero-scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0.4;
+}
+.hero-scroll-hint span { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; }
+.scroll-arrow { width: 20px; height: 20px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(45deg); animation: scroll-bounce 1.5s infinite; }
+@keyframes scroll-bounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+/* ── Hero badges ── */
+.hero-badges { display: flex; gap: 16px; margin-top: 48px; flex-wrap: wrap; }
+.hero-badge {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 10px 16px;
+  backdrop-filter: blur(8px);
+}
+.hero-badge-icon { font-size: 18px; }
+.hero-badge-text { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+/* ═══════════════════════════════════
+   STATS
+═══════════════════════════════════ */
+#stats {
+  padding: 80px 0; background: var(--navy-mid);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+.stat-cell { background: var(--navy-mid); padding: 40px 32px; text-align: center; }
+.stat-number { font-family: 'Montserrat', sans-serif; font-size: 52px; font-weight: 900; color: var(--green); line-height: 1; letter-spacing: -0.02em; }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 10px; letter-spacing: 0.06em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; font-weight: 600; line-height: 1.5; }
+
+/* ═══════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════ */
+.section-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+.section-title { font-family: 'Montserrat', sans-serif; font-size: clamp(28px,3.5vw,42px); font-weight: 800; line-height: 1.15; color: #fff; margin-bottom: 18px; text-wrap: pretty; }
+.section-title-dark { color: #0d1332; }
+.section-body { font-size: 16px; color: var(--muted); line-height: 1.75; }
+.section-body-dark { color: #4b5563; }
+.img-placeholder { background: rgba(255,255,255,0.04); border: 1.5px dashed rgba(255,255,255,0.12); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: rgba(255,255,255,0.25); font-family: 'Montserrat', sans-serif; }
+
+/* ═══════════════════════════════════
+   ABOUT
+═══════════════════════════════════ */
+#about { padding: 120px 0; background: #fff; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-img-wrap { position: relative; }
+.about-photo { width: 100%; height: 460px; }
+.about-float-card {
+  position: absolute; bottom: -28px; right: -28px;
+  background: var(--green); border-radius: 12px; padding: 20px 24px;
+  box-shadow: 0 12px 40px rgba(141,198,63,0.3);
+}
+.about-float-card .big { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900; color: #fff; }
+.about-float-card .small { font-size: 11px; color: rgba(255,255,255,0.8); font-family: 'Montserrat', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.feature-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+.feat { display: flex; align-items: flex-start; gap: 12px; }
+.feat-check { width: 22px; height: 22px; background: var(--green-glow); border: 1.5px solid var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.feat-check svg { width: 10px; height: 10px; stroke: var(--green); fill: none; stroke-width: 2.5; }
+.feat-text strong { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 2px; }
+.feat-text span { font-size: 13px; color: #4b5563; line-height: 1.55; }
+
+/* ═══════════════════════════════════
+   NETBIL
+═══════════════════════════════════ */
+#netbil {
+  padding: 120px 0;
+  background: linear-gradient(135deg, var(--navy-mid) 0%, #0a0f2e 100%);
+  position: relative; overflow: hidden;
+}
+#netbil::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(141,198,63,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.netbil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.netbil-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.netbil-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 22px 20px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.netbil-card:hover { border-color: rgba(141,198,63,0.3); background: rgba(141,198,63,0.04); }
+.netbil-card-icon { font-size: 24px; margin-bottom: 12px; }
+.netbil-card h4 { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.netbil-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.partner-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(141,198,63,0.1); border: 1px solid rgba(141,198,63,0.25);
+  border-radius: 8px; padding: 10px 18px; margin-bottom: 24px;
+}
+.partner-badge span { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--green); }
+
+/* ═══════════════════════════════════
+   CCAA
+═══════════════════════════════════ */
+#ccaa { padding: 120px 0; background: var(--navy-deep); }
+.ccaa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.ccaa-visual {
+  background: linear-gradient(135deg, #1B2464 0%, #0f1540 100%);
+  border-radius: 16px; padding: 48px 40px; text-align: center;
+  border: 1px solid rgba(255,255,255,0.08); position: relative; overflow: hidden;
+}
+.ccaa-visual::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(141,198,63,0.15) 0%, transparent 70%);
+}
+.ccaa-big { font-family: 'Montserrat', sans-serif; font-size: 72px; font-weight: 900; color: var(--green); line-height: 1; margin-bottom: 8px; position: relative; }
+.ccaa-sub { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; }
+.ccaa-divider { width: 48px; height: 2px; background: var(--green); margin: 20px auto; opacity: 0.4; }
+.ccaa-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+.ccaa-benefits { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+.ccaa-benefit { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+.ccaa-benefit span { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.ccaa-benefit-icon { font-size: 18px; }
+
+/* ═══════════════════════════════════
+   DIFERENTIALS (SALAS CLIMATIZADAS)
+═══════════════════════════════════ */
+#differentials { padding: 120px 0; background: #f3f4f6; }
+.diff-title-wrap { text-align: center; margin-bottom: 64px; }
+.diff-title-wrap .section-title { color: var(--navy); }
+.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.diff-card {
+  background: #fff; border: 1px solid #e5e7eb;
+  border-radius: 14px; padding: 32px 28px;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  position: relative; overflow: hidden;
+}
+.diff-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--green); opacity: 0;
+  transition: opacity 0.25s;
+}
+.diff-card:hover { border-color: rgba(141,198,63,0.3); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.10); }
+.diff-card:hover::before { opacity: 1; }
+.diff-card-icon { font-size: 32px; margin-bottom: 18px; display: block; }
+.diff-card h3 { font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.diff-card p { font-size: 13px; color: #6b7280; line-height: 1.65; }
+.diff-card-highlight {
+  background: linear-gradient(135deg, rgba(141,198,63,0.06) 0%, #fff 100%);
+  border-color: rgba(141,198,63,0.25);
+}
+.diff-card-highlight::before { opacity: 1; }
+
+/* ═══════════════════════════════════
+   FAQ
+═══════════════════════════════════ */
+#faq { padding: 120px 0; }
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.faq-list { display: flex; flex-direction: column; gap: 0; }
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.07); }
+.faq-question {
+  width: 100%; background: none; border: none; color: #fff; cursor: pointer;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600;
+  text-align: left; padding: 20px 0; display: flex; justify-content: space-between;
+  align-items: center; gap: 16px; transition: color 0.15s;
+}
+.faq-question:hover { color: var(--green); }
+.faq-icon { width: 20px; height: 20px; flex-shrink: 0; border: 1.5px solid rgba(255,255,255,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.faq-icon span { font-size: 14px; line-height: 1; color: var(--muted); }
+.faq-item.open .faq-icon { background: var(--green); border-color: var(--green); transform: rotate(45deg); }
+.faq-item.open .faq-icon span { color: #fff; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s ease; }
+.faq-answer p { font-size: 14px; color: var(--muted); line-height: 1.75; padding-bottom: 20px; }
+.faq-item.open .faq-answer { max-height: 300px; }
+.faq-cta-box {
+  background: linear-gradient(135deg, rgba(141,198,63,0.1) 0%, rgba(27,36,100,0.3) 100%);
+  border: 1px solid rgba(141,198,63,0.2); border-radius: 16px; padding: 40px;
+  display: flex; flex-direction: column; gap: 20px; justify-content: center;
+}
+.faq-cta-box h3 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 800; color: #fff; line-height: 1.3; }
+.faq-cta-box p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+/* ═══════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════ */
+#testimonials { padding: 120px 0; background: #fff; }
+.test-title-wrap { text-align: center; margin-bottom: 64px; }
+.test-title-wrap .section-title { color: var(--navy); }
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.test-card {
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 14px; padding: 28px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.test-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-4px); }
+.stars { color: #f59e0b; font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+.test-text { font-size: 14px; color: #4b5563; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.test-author { display: flex; align-items: center; gap: 10px; }
+.test-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; color: #fff; }
+.test-name { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--navy); }
+.test-role { font-size: 11px; color: #6b7280; }
+
+/* ═══════════════════════════════════
+   MAP + CONTACT
+═══════════════════════════════════ */
+#contact { padding: 120px 0; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.map-embed { border-radius: 14px; overflow: hidden; height: 300px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--muted); font-family: 'Montserrat', sans-serif; }
+.contact-detail { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.contact-detail:last-child { border-bottom: none; }
+.contact-emoji { font-size: 20px; }
+.contact-text strong { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 700; color: #fff; display: block; margin-bottom: 2px; }
+.contact-text span { font-size: 13px; color: var(--muted); }
+.form-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 40px; }
+.form-title { font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 28px; }
+.form-field { margin-bottom: 18px; }
+.form-field label { display: block; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 7px; }
+.form-field input, .form-field textarea, .form-field select {
+  width: 100%; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 6px; padding: 13px 16px;
+  font-family: 'Open Sans', sans-serif; font-size: 14px; color: #fff;
+  outline: none; transition: border-color 0.2s;
+}
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.25); }
+.form-field input:focus, .form-field textarea:focus { border-color: var(--green); }
+.form-field textarea { resize: vertical; min-height: 90px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-submit {
+  width: 100%; background: var(--green); color: #fff;
+  font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px;
+  letter-spacing: 0.07em; text-transform: uppercase; padding: 16px;
+  border-radius: 6px; border: none; cursor: pointer; margin-top: 4px;
+  transition: background 0.2s, transform 0.1s;
+  animation: pulse-btn 2.5s infinite;
+}
+.form-submit:hover { background: var(--green-dark); transform: translateY(-1px); animation: none; }
+
+/* ═══════════════════════════════════
+   CTA BANNER
+═══════════════════════════════════ */
+#cta-banner {
+  padding: 100px 0; text-align: center;
+  background: linear-gradient(135deg, #1B2464 0%, #0f1540 100%);
+  position: relative; overflow: hidden;
+}
+#cta-banner::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(141,198,63,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+#cta-banner .container { position: relative; }
+#cta-banner h2 { font-family: 'Montserrat', sans-serif; font-size: clamp(28px,4vw,44px); font-weight: 900; color: #fff; margin-bottom: 14px; line-height: 1.15; }
+#cta-banner p { font-size: 16px; color: var(--muted); margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; }
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+#footer { background: #02040f; padding: 64px 0 28px; border-top: 1px solid rgba(255,255,255,0.05); }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 56px; margin-bottom: 48px; }
+.footer-logo img { height: 52px; margin-bottom: 16px; }
+.footer-tagline { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+.footer-col-title { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
+.footer-link { display: block; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px; transition: color 0.15s; }
+.footer-link:hover { color: #fff; }
+.footer-contact { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px; line-height: 1.5; }
+.footer-divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px; }
+.footer-copy { font-size: 11px; color: rgba(255,255,255,0.25); text-align: center; }
+
+/* ── WhatsApp FAB ── */
+.wa-fab {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 58px; height: 58px; background: #25D366;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 24px rgba(37,211,102,0.4); z-index: 300; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.wa-fab:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
+.wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <img src="assets/logo.png" alt="Pereira da Costa">
+        <div class="nav-logo-text">Centro Educacional<br><span>Pereira da Costa</span></div>
+      </a>
+      <nav class="nav-links">
+        <a href="#about">Sobre</a>
+        <a href="#netbil">Netbil</a>
+        <a href="#ccaa">CCAA</a>
+        <a href="#differentials">Diferenciais</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contato</a>
+        <a href="#contact" class="nav-cta">Pré-Matrícula</a>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-gradient"></div>
+  <div class="container">
+    <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-pill reveal">
+        <div class="hero-pill-dot"></div>
+        <span>Vagas abertas — Pré-Matrícula 2026</span>
+      </div>
+      <h1 class="reveal reveal-delay-1">
+        O lugar onde seu filho aprende<br>a ser <em>feliz aprendendo.</em>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Educação infantil de excelência em Cabo Frio. Salas climatizadas, parceria com Netbil e CCAA — tudo para revelar o melhor de cada criança.
+      </p>
+      <div class="hero-actions reveal reveal-delay-3">
+        <a href="#contact" class="btn btn-green">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Garantir Vaga
+        </a>
+        <a href="#about" class="btn btn-outline-white">Conhecer a Escola</a>
+      </div>
+      <div class="hero-badges reveal reveal-delay-4">
+        <div class="hero-badge"><span class="hero-badge-icon">❄️</span><span class="hero-badge-text">Salas Climatizadas</span></div>
+        <div class="hero-badge"><span class="hero-badge-icon">📚</span><span class="hero-badge-text">Parceria Netbil</span></div>
+        <div class="hero-badge"><span class="hero-badge-icon">🌎</span><span class="hero-badge-text">Convênio CCAA</span></div>
+      </div>
+    </div>
+    <div class="hero-img reveal-right">
+      <img src="https://mogpvkfbynertpyhejhw.supabase.co/storage/v1/object/public/imagens/foto-fachada.jpeg" alt="Fachada do Centro Educacional Pereira da Costa">
+      <div class="hero-img-overlay"></div>
+    </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-arrow"></div>
+    <span>Rolar</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid reveal">
+      <div class="stat-cell"><div class="stat-number" data-count="200">0</div><div class="stat-label">Alunos<br>Formados</div></div>
+      <div class="stat-cell"><div class="stat-number" data-count="6">0</div><div class="stat-label">Anos de Educação<br>de Qualidade</div></div>
+      <div class="stat-cell"><div class="stat-number" data-count="5">0</div><div class="stat-label">Estrelas<br>no Google</div></div>
+      <div class="stat-cell"><div class="stat-number" data-count="100">0</div><div class="stat-label">% Satisfação<br>das Famílias</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal-left">
+        <div class="about-img-wrap">
+          <img src="https://mogpvkfbynertpyhejhw.supabase.co/storage/v1/object/public/imagens/foto-fachada.jpeg" alt="Fachada do Centro Educacional Pereira da Costa" style="width:100%;height:460px;object-fit:cover;border-radius:12px;display:block;">
+          <div class="about-float-card">
+            <div class="big">6+</div>
+            <div class="small">anos de excelência</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="section-eyebrow">Quem somos</div>
+        <h2 class="section-title" style="color:var(--navy);">Educação Infantil de Excelência em Cabo Frio</h2>
+        <p class="section-body" style="color:#4b5563;">No Pereira da Costa, acreditamos que cada criança tem um potencial único — e o nosso papel é <strong style="color:var(--navy);">ajudar a revelar o melhor de cada uma delas.</strong><br><br>Com equipe pedagógica experiente, estrutura acolhedora e parcerias com <strong style="color:var(--green);">CCAA</strong> e <strong style="color:var(--green);">Netbil</strong>, criamos um ambiente que une carinho, aprendizado e futuro.</p>
+        <ul class="feature-list" style="margin-top:32px;">
+          <li class="feat">
+            <div class="feat-check"><svg viewBox="0 0 12 9"><polyline points="1.5,4.5 4.5,7.5 10.5,1.5"/></svg></div>
+            <div class="feat-text"><strong>Atendimento Individualizado</strong><span>Cada aluno recebe atenção real — porque ninguém aprende do mesmo jeito.</span></div>
+          </li>
+          <li class="feat">
+            <div class="feat-check"><svg viewBox="0 0 12 9"><polyline points="1.5,4.5 4.5,7.5 10.5,1.5"/></svg></div>
+            <div class="feat-text"><strong>Salas Climatizadas</strong><span>Conforto garantido no verão de Cabo Frio para máxima concentração.</span></div>
+          </li>
+          <li class="feat">
+            <div class="feat-check"><svg viewBox="0 0 12 9"><polyline points="1.5,4.5 4.5,7.5 10.5,1.5"/></svg></div>
+            <div class="feat-text"><strong>Atividades Extracurriculares</strong><span>Música, artes, esportes e movimento — corpo e mente em desenvolvimento.</span></div>
+          </li>
+        </ul>
+        <div style="margin-top:36px;">
+          <a href="#contact" class="btn btn-green">Agendar Visita</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NETBIL -->
+<section id="netbil">
+  <div class="container">
+    <div class="netbil-grid">
+      <div class="reveal-left">
+        <div class="partner-badge">
+          <span style="font-size:16px;">📚</span>
+          <span>Parceria Oficial Netbil</span>
+        </div>
+        <div class="section-eyebrow">Conteúdo de qualidade</div>
+        <h2 class="section-title">Tecnologia e pedagogia no mesmo lugar</h2>
+        <p class="section-body">O material Netbil é reconhecido nacionalmente pela qualidade e inovação. Plataforma digital interativa que transforma o estudo em descoberta — preparando seu filho para o mundo de amanhã.</p>
+        <div style="margin-top:36px;">
+          <a href="#contact" class="btn btn-green">Quero Saber Mais</a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="netbil-cards">
+          <div class="netbil-card">
+            <div class="netbil-card-icon">📖</div>
+            <h4>Livros Didáticos</h4>
+            <p>Material atualizado e alinhado com a BNCC, desenvolvido para todas as idades.</p>
+          </div>
+          <div class="netbil-card">
+            <div class="netbil-card-icon">💻</div>
+            <h4>Plataforma Digital</h4>
+            <p>Recursos multimídia que tornam as aulas mais dinâmicas e interativas.</p>
+          </div>
+          <div class="netbil-card">
+            <div class="netbil-card-icon">🎯</div>
+            <h4>Aprendizado Ativo</h4>
+            <p>Metodologia que estimula o raciocínio crítico desde a educação infantil.</p>
+          </div>
+          <div class="netbil-card">
+            <div class="netbil-card-icon">📊</div>
+            <h4>Acompanhamento</h4>
+            <p>Pais e professores podem monitorar o progresso de cada aluno em tempo real.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CCAA -->
+<section id="ccaa">
+  <div class="container">
+    <div class="ccaa-grid">
+      <div class="reveal-left">
+        <div class="partner-badge">
+          <span style="font-size:16px;">🌎</span>
+          <span>Convênio Oficial CCAA</span>
+        </div>
+        <div class="section-eyebrow">Inglês desde cedo</div>
+        <h2 class="section-title">O idioma do futuro começa aqui</h2>
+        <p class="section-body">Com o convênio CCAA, sua criança aprende inglês com uma das maiores e mais respeitadas redes de ensino de idiomas do Brasil — com metodologia comprovada há décadas.</p>
+        <div class="ccaa-benefits">
+          <div class="ccaa-benefit"><span class="ccaa-benefit-icon">✅</span><span>Metodologia CCAA exclusiva para crianças</span></div>
+          <div class="ccaa-benefit"><span class="ccaa-benefit-icon">✅</span><span>Professores especializados em educação bilíngue</span></div>
+          <div class="ccaa-benefit"><span class="ccaa-benefit-icon">✅</span><span>Turmas pequenas para aprendizado acelerado</span></div>
+          <div class="ccaa-benefit"><span class="ccaa-benefit-icon">✅</span><span>Condições especiais para alunos matriculados</span></div>
+        </div>
+        <div style="margin-top:36px;">
+          <a href="#contact" class="btn btn-green">Quero Inglês para Meu Filho</a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="ccaa-visual">
+          <div class="ccaa-big">CCAA</div>
+          <div class="ccaa-sub">Convênio Oficial</div>
+          <div class="ccaa-divider"></div>
+          <div class="ccaa-desc">Uma das maiores redes de ensino de inglês do Brasil, com mais de 60 anos de experiência formando pessoas bilíngues.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIALS -->
+<section id="differentials">
+  <div class="container">
+    <div class="diff-title-wrap reveal">
+      <div class="section-eyebrow" style="text-align:center;">Por que escolher</div>
+      <h2 class="section-title" style="text-align:center;color:var(--navy);">O que torna o Pereira da Costa diferente?</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card diff-card-highlight reveal reveal-delay-1">
+        <span class="diff-card-icon">❄️</span>
+        <h3>Salas Climatizadas</h3>
+        <p>Único centro educacional com salas totalmente climatizadas em Jacaré. Conforto garantido em todas as épocas do ano.</p>
+      </div>
+      <div class="diff-card reveal reveal-delay-2">
+        <span class="diff-card-icon">👤</span>
+        <h3>Atendimento Individual</h3>
+        <p>Turmas reduzidas para que cada criança receba atenção personalizada. Seu filho não é um número — é único.</p>
+      </div>
+      <div class="diff-card reveal reveal-delay-3">
+        <span class="diff-card-icon">📚</span>
+        <h3>Material Netbil</h3>
+        <p>Conteúdo pedagógico atualizado e inovador, desenvolvido para transformar o aprendizado em uma jornada de descobertas.</p>
+      </div>
+      <div class="diff-card reveal reveal-delay-1">
+        <span class="diff-card-icon">🌎</span>
+        <h3>Inglês com CCAA</h3>
+        <p>Convênio exclusivo que garante ensino de inglês de qualidade com condições especiais para os nossos alunos.</p>
+      </div>
+      <div class="diff-card reveal reveal-delay-2">
+        <span class="diff-card-icon">🏃</span>
+        <h3>Atividades Extracurriculares</h3>
+        <p>Música, movimento, artes e esportes. Desenvolvemos corpo e mente para além da sala de aula.</p>
+      </div>
+      <div class="diff-card reveal reveal-delay-3">
+        <span class="diff-card-icon">🔒</span>
+        <h3>Ambiente Seguro</h3>
+        <p>Estrutura moderna, monitorada e planejada para o bem-estar das crianças — tranquilidade total para os pais.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="test-title-wrap reveal">
+      <div class="section-eyebrow" style="text-align:center;">Depoimentos</div>
+      <h2 class="section-title" style="text-align:center;color:var(--navy);">O que dizem as famílias</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="test-text">"Meu filho adora a escola! Os professores são atenciosos e o ambiente é muito acolhedor. A sala climatizada fez toda a diferença no verão!"</p>
+        <div class="test-author"><div class="test-avatar">A</div><div><div class="test-name">Ana Paula S.</div><div class="test-role">Mãe de aluno — Jacaré</div></div></div>
+      </div>
+      <div class="test-card reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="test-text">"O material Netbil é incrível! Minha filha chegou em casa contando tudo que aprendeu. É uma escola que realmente se preocupa com o aprendizado."</p>
+        <div class="test-author"><div class="test-avatar">R</div><div><div class="test-name">Ricardo M.</div><div class="test-role">Pai de aluna — Cabo Frio</div></div></div>
+      </div>
+      <div class="test-card reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <p class="test-text">"O atendimento é individualizado de verdade. Percebo a evolução da minha filha a cada semana. Com o inglês do CCAA então, ela está voando!"</p>
+        <div class="test-author"><div class="test-avatar">F</div><div><div class="test-name">Fernanda L.</div><div class="test-role">Mãe de aluna — Tamoios</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div>
+        <div class="section-eyebrow reveal">Perguntas frequentes</div>
+        <h2 class="section-title reveal">Tire suas dúvidas</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question"><span>Qual a idade mínima para matrícula?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>Aceitamos crianças a partir de 2 anos de idade. Nossa educação infantil é organizada por faixas etárias para garantir o desenvolvimento adequado de cada criança.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question"><span>Como funciona o convênio com o CCAA?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>Alunos matriculados têm acesso ao programa de inglês CCAA com condições especiais e aulas integradas ao currículo escolar. Entre em contato para saber mais sobre valores e horários.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question"><span>O material Netbil está incluído na mensalidade?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>O material Netbil é fornecido separadamente, mas oferecemos condições facilitadas de aquisição. Consulte nossa equipe para mais detalhes sobre os pacotes disponíveis.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question"><span>Qual o horário de funcionamento?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>Funcionamos de segunda a sexta-feira em período integral e parcial. Entre em contato pelo WhatsApp para consultar os horários e turmas disponíveis para 2026.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question"><span>As salas são realmente climatizadas?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>Sim! Todas as salas de aula do Pereira da Costa são equipadas com ar-condicionado moderno, garantindo conforto total especialmente nos meses quentes do verão em Cabo Frio.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question"><span>Como faço a pré-matrícula?</span><div class="faq-icon"><span>+</span></div></button>
+            <div class="faq-answer"><p>É simples! Preencha o formulário nesta página ou entre em contato pelo WhatsApp (22) 99283-1523. Nossa equipe retorna em até 24h para agendar sua visita e apresentar a escola.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="faq-cta-box">
+          <div class="section-eyebrow">Ainda tem dúvidas?</div>
+          <h3>Fale diretamente com a nossa equipe</h3>
+          <p>Nossa equipe está pronta para responder qualquer pergunta e agendar sua visita à escola sem compromisso.</p>
+          <a href="https://api.whatsapp.com/send/?phone=5522992831523" class="btn btn-green" style="align-self:flex-start;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Conversar no WhatsApp
+          </a>
+          <div style="margin-top:8px;">
+            <div class="contact-detail" style="border:none;padding:12px 0 0;">
+              <span class="contact-emoji">📍</span>
+              <div class="contact-text"><strong>Rua Samuel Bessa, 62</strong><span>Jacaré — Cabo Frio, RJ</span></div>
+            </div>
+            <div class="contact-detail" style="border:none;padding:8px 0 0;">
+              <span class="contact-emoji">📞</span>
+              <div class="contact-text"><strong>(22) 99283-1523</strong><span>WhatsApp disponível</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + MAP -->
+<section id="contact" style="background:var(--navy-mid);">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <div class="section-eyebrow">Onde estamos</div>
+        <h2 class="section-title">Venha nos visitar</h2>
+        <div class="map-embed">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3688.5!2d-42.02!3d-22.88!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sCentro+Educacional+Pereira+da+Costa!5e0!3m2!1spt!2sbr!4v1600000000000!5m2!1spt!2sbr" width="100%" height="300" style="border:0;border-radius:14px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-emoji">📍</span>
+          <div class="contact-text"><strong>Endereço</strong><span>Rua Samuel Bessa, 62 — Jacaré, Cabo Frio – RJ</span></div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-emoji">📞</span>
+          <div class="contact-text"><strong>WhatsApp</strong><span>(22) 99283-1523</span></div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-emoji">🕐</span>
+          <div class="contact-text"><strong>Horário</strong><span>Seg a Sex — 7h às 17h</span></div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="form-card">
+          <div class="form-title">Garantir minha vaga 2026</div>
+          <div class="form-row">
+            <div class="form-field"><label>Nome do responsável *</label><input type="text" placeholder="Seu nome"></div>
+            <div class="form-field"><label>Nome da criança *</label><input type="text" placeholder="Nome do filho(a)"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>WhatsApp *</label><input type="tel" placeholder="(22) 99999-9999"></div>
+            <div class="form-field"><label>E-mail *</label><input type="email" placeholder="seu@email.com"></div>
+          </div>
+          <div class="form-field">
+            <label>Idade da criança</label>
+            <select style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.1);border-radius:6px;padding:13px 16px;font-family:'Open Sans',sans-serif;font-size:14px;color:rgba(255,255,255,0.7);outline:none;appearance:none;">
+              <option value="">Selecione a faixa etária</option>
+              <option>2 anos</option>
+              <option>3 anos</option>
+              <option>4 anos</option>
+              <option>5 anos</option>
+              <option>6 anos</option>
+            </select>
+          </div>
+          <div class="form-field"><label>Mensagem (opcional)</label><textarea placeholder="Alguma dúvida ou informação adicional?"></textarea></div>
+          <button class="form-submit">
+            ✅ Solicitar Pré-Matrícula
+          </button>
+          <p style="font-size:11px;color:rgba(255,255,255,0.3);text-align:center;margin-top:12px;">Retornamos em até 24h pelo WhatsApp.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow" style="text-align:center;margin-bottom:12px;">Vagas Limitadas</div>
+      <h2>Garanta já a Pré-Matrícula 2026</h2>
+      <p>As vagas são limitadas e o atendimento é individualizado. Não deixe seu filho ficar de fora — agende uma visita hoje mesmo.</p>
+      <div class="cta-actions">
+        <a href="#contact" class="btn btn-green">Garantir Minha Vaga</a>
+        <a href="https://api.whatsapp.com/send/?phone=5522992831523" class="btn btn-outline-white">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <img src="assets/logo.png" alt="Pereira da Costa">
+        <p class="footer-tagline">Excelência em educação infantil e atividades extracurriculares em Cabo Frio – RJ. Salas climatizadas, parceria Netbil e convênio CCAA.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navegação</div>
+        <a class="footer-link" href="#about">Sobre Nós</a>
+        <a class="footer-link" href="#netbil">Parceria Netbil</a>
+        <a class="footer-link" href="#ccaa">Convênio CCAA</a>
+        <a class="footer-link" href="#differentials">Diferenciais</a>
+        <a class="footer-link" href="#faq">Perguntas Frequentes</a>
+        <a class="footer-link" href="#contact">Pré-Matrícula</a>
+      </div>
+      <div>
+        <div class="footer-col-title">Contato</div>
+        <div class="footer-contact">📍 Rua Samuel Bessa 62<br>Jacaré — Cabo Frio, RJ</div>
+        <div class="footer-contact">📞 (22) 99283-1523</div>
+        <div style="margin-top:20px;">
+          <a href="#contact" class="btn btn-green" style="font-size:12px;padding:11px 22px;animation:pulse-btn 2.5s infinite;">Pré-Matrícula</a>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <p class="footer-copy">© 2026 Centro Educacional Pereira da Costa. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://api.whatsapp.com/send/?phone=5522992831523" class="wa-fab" title="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+/* ── Particles Canvas ── */
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const NUM = 80;
+
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor(){
+      this.reset();
+      this.y = Math.random() * H;
+    }
+    reset(){
+      this.x = Math.random() * W;
+      this.y = H + 20;
+      this.r = Math.random() * 1.8 + 0.4;
+      this.speed = Math.random() * 0.5 + 0.2;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.green = Math.random() > 0.65;
+    }
+    update(){
+      this.y -= this.speed;
+      this.x += Math.sin(this.y * 0.015) * 0.3;
+      if(this.y < -10) this.reset();
+    }
+    draw(){
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+      ctx.fillStyle = this.green
+        ? `rgba(141,198,63,${this.opacity})`
+        : `rgba(255,255,255,${this.opacity * 0.6})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i=0;i<NUM;i++) particles.push(new Particle());
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{ p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ── Nav scroll ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', ()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+// nav is always white now
+
+/* ── Scroll Reveal ── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── Animate counters ── */
+function animateCount(el, target, suffix=''){
+  let start = 0;
+  const isPlus = target >= 100;
+  const duration = 1800;
+  const step = timestamp => {
+    if(!start) start = timestamp;
+    const progress = Math.min((timestamp-start)/duration, 1);
+    const eased = 1 - Math.pow(1-progress, 3);
+    const val = Math.floor(eased * target);
+    el.textContent = val + (isPlus ? '+' : '') + suffix;
+    if(progress < 1) requestAnimationFrame(step);
+    else el.textContent = target + (isPlus ? '+' : '') + suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+const statObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const nums = e.target.querySelectorAll('[data-count]');
+      nums.forEach(el=>{
+        const v = parseInt(el.dataset.count);
+        const suffix = el.dataset.count === '5' ? '★' : '';
+        animateCount(el, v, suffix);
+      });
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const statsSection = document.getElementById('stats');
+if(statsSection) statObserver.observe(statsSection);
+
+/* ── FAQ ── */
+document.querySelectorAll('.faq-question').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>
