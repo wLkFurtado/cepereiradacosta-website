@@ -431,14 +431,40 @@ a { text-decoration: none; color: inherit; }
   .container { padding: 0 20px; }
 
   /* Nav */
-  .nav-links { display: none; }
   .nav-inner { height: 60px; }
   .nav-logo img { height: 36px; }
+  .nav-links {
+    display: none;
+    position: fixed; top: 60px; left: 0; right: 0;
+    background: #fff;
+    flex-direction: column; gap: 0;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    z-index: 199; padding: 8px 0;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 14px 24px; font-size: 14px; border-bottom: 1px solid #f3f4f6; }
+  .nav-links a:last-child { border-bottom: none; }
+  .nav-cta { margin: 12px 24px; border-radius: 6px; text-align: center; }
+  /* Hambúrguer */
+  .nav-hamburger {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 5px; width: 36px; height: 36px; cursor: pointer;
+    background: none; border: none; padding: 4px;
+  }
+  .nav-hamburger span {
+    display: block; height: 2px; background: var(--navy);
+    border-radius: 2px; transition: all 0.25s ease;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* Hero */
   #hero { padding: 90px 0 60px; }
   .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-  .hero-img { display: none; }
+  .hero-img { display: block; }
+  .hero-img img { height: 260px; border-radius: 12px; }
   #hero h1 { font-size: clamp(28px, 8vw, 40px); }
   .hero-sub { font-size: 15px; }
   .hero-actions { flex-direction: column; }
@@ -505,6 +531,9 @@ a { text-decoration: none; color: inherit; }
   .section-title { font-size: clamp(24px, 6vw, 32px); }
 }
 
+  .nav-hamburger { display: flex !important; }
+}
+
 @media (max-width: 480px) {
   .netbil-cards { grid-template-columns: 1fr; }
   .hero-badge { flex: 1 1 100%; }
@@ -533,15 +562,18 @@ a { text-decoration: none; color: inherit; }
         <img src="https://mogpvkfbynertpyhejhw.supabase.co/storage/v1/object/public/imagens/Camada%201.png" alt="Pereira da Costa">
         <div class="nav-logo-text">Centro Educacional<br><span>Pereira da Costa</span></div>
       </a>
-      <nav class="nav-links">
-        <a href="#about">Sobre</a>
-        <a href="#netbil">Netbil</a>
-        <a href="#ccaa">CCAA</a>
-        <a href="#differentials">Diferenciais</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contato</a>
-        <a href="#contact" class="nav-cta">Pré-Matrícula</a>
+      <nav class="nav-links" id="nav-links">
+        <a href="#about" class="nav-link-item">Sobre</a>
+        <a href="#netbil" class="nav-link-item">Netbil</a>
+        <a href="#ccaa" class="nav-link-item">CCAA</a>
+        <a href="#differentials" class="nav-link-item">Diferenciais</a>
+        <a href="#faq" class="nav-link-item">FAQ</a>
+        <a href="#contact" class="nav-link-item">Contato</a>
+        <a href="#contact" class="nav-cta nav-link-item">Pré-Matrícula</a>
       </nav>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" style="display:none;">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </div>
@@ -1034,6 +1066,23 @@ a { text-decoration: none; color: inherit; }
     requestAnimationFrame(loop);
   }
   loop();
+})();
+
+/* ── Hambúrguer ── */
+(function(){
+  var btn = document.getElementById('nav-hamburger');
+  var links = document.getElementById('nav-links');
+  if(!btn || !links) return;
+  btn.addEventListener('click', function(){
+    btn.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('.nav-link-item').forEach(function(a){
+    a.addEventListener('click', function(){
+      btn.classList.remove('open');
+      links.classList.remove('open');
+    });
+  });
 })();
 
 /* ── Nav scroll ── */
