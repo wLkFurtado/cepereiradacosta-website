@@ -1201,28 +1201,30 @@ document.querySelectorAll('.faq-question').forEach(btn=>{
   });
 });
 
-// Survey modal
-const surveyModal = document.getElementById('survey-modal');
-const surveyFrame = document.getElementById('survey-modal-frame');
+// Survey modal — inicializado após o DOM estar pronto
+document.addEventListener('DOMContentLoaded', function() {
+  const surveyModal = document.getElementById('survey-modal');
+  const surveyFrame = document.getElementById('survey-modal-frame');
 
-function openSurveyModal() {
-  if (!surveyFrame.querySelector('iframe')) {
-    surveyFrame.innerHTML = '<iframe src="https://link.growave.com.br/widget/survey/SwEPBw5RwYwa4wFxazY9" style="border:none;width:100%;min-height:480px;display:block;" scrolling="no" title="survey"></iframe>';
+  function openSurveyModal() {
+    if (!surveyFrame.querySelector('iframe')) {
+      surveyFrame.innerHTML = '<iframe src="https://link.growave.com.br/widget/survey/SwEPBw5RwYwa4wFxazY9" style="border:none;width:100%;min-height:480px;display:block;" scrolling="no" title="survey"></iframe>';
+    }
+    surveyModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
-  surveyModal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeSurveyModal() {
-  surveyModal.classList.remove('open');
-  document.body.style.overflow = '';
-}
+  function closeSurveyModal() {
+    surveyModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
 
-document.getElementById('survey-modal-close').addEventListener('click', closeSurveyModal);
-surveyModal.addEventListener('click', e => { if (e.target === surveyModal) closeSurveyModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSurveyModal(); });
+  document.getElementById('survey-modal-close').addEventListener('click', closeSurveyModal);
+  surveyModal.addEventListener('click', e => { if (e.target === surveyModal) closeSurveyModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSurveyModal(); });
 
-document.querySelectorAll('a[href="#contact"]').forEach(el => {
-  el.addEventListener('click', e => { e.preventDefault(); openSurveyModal(); });
+  document.querySelectorAll('a[href="#contact"]').forEach(el => {
+    el.addEventListener('click', e => { e.preventDefault(); openSurveyModal(); });
+  });
 });
 </script>
 
