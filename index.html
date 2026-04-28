@@ -595,6 +595,30 @@ a { text-decoration: none; color: inherit; }
 }
 .wa-fab:hover { transform: scale(1.1); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
 .wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+
+/* ── SURVEY MODAL ── */
+#survey-modal {
+  display: none; position: fixed; inset: 0; z-index: 9000;
+  background: rgba(4,8,26,0.85); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+#survey-modal.open { display: flex; }
+.survey-modal-box {
+  background: #fff; border-radius: 16px;
+  width: 100%; max-width: 640px;
+  max-height: 90vh; overflow-y: auto;
+  position: relative; padding: 48px 40px 40px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+}
+.survey-modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none; cursor: pointer;
+  font-size: 22px; color: #6b7280; line-height: 1;
+  padding: 4px 8px; border-radius: 6px;
+  transition: background 0.15s;
+}
+.survey-modal-close:hover { background: #f3f4f6; }
+.survey-modal-box iframe { width: 100%; min-height: 480px; border: none; display: block; }
 </style>
 </head>
 <body>
@@ -940,24 +964,10 @@ a { text-decoration: none; color: inherit; }
         </div>
       </div>
       <div class="reveal-right">
-        <div class="faq-cta-box">
-          <div class="section-eyebrow">Ainda tem dúvidas?</div>
-          <h3>Fale diretamente com a nossa equipe</h3>
-          <p>Nossa equipe está pronta para responder qualquer pergunta e agendar sua visita à escola sem compromisso.</p>
-          <a href="https://api.whatsapp.com/send/?phone=5522992831523" class="btn btn-green" style="align-self:flex-start;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
-            Conversar no WhatsApp
-          </a>
-          <div style="margin-top:8px;">
-            <div class="contact-detail" style="border:none;padding:12px 0 0;">
-              <span class="contact-emoji">📍</span>
-              <div class="contact-text"><strong>Rua Samuel Bessa, 62</strong><span>Jacaré Cabo Frio, RJ</span></div>
-            </div>
-            <div class="contact-detail" style="border:none;padding:8px 0 0;">
-              <span class="contact-emoji">📞</span>
-              <div class="contact-text"><strong>(22) 99283-1523</strong><span>WhatsApp disponível</span></div>
-            </div>
-          </div>
+        <div class="faq-cta-box" style="padding:0;overflow:hidden;background:transparent;border:none;box-shadow:none;">
+          <iframe src="https://link.growave.com.br/widget/survey/SwEPBw5RwYwa4wFxazY9"
+            style="border:none;width:100%;min-height:520px;display:block;"
+            scrolling="no" title="survey"></iframe>
         </div>
       </div>
     </div>
@@ -1190,6 +1200,39 @@ document.querySelectorAll('.faq-question').forEach(btn=>{
     if(!wasOpen) item.classList.add('open');
   });
 });
+
+// Survey modal
+const surveyModal = document.getElementById('survey-modal');
+const surveyFrame = document.getElementById('survey-modal-frame');
+
+function openSurveyModal() {
+  if (!surveyFrame.querySelector('iframe')) {
+    surveyFrame.innerHTML = '<iframe src="https://link.growave.com.br/widget/survey/SwEPBw5RwYwa4wFxazY9" style="border:none;width:100%;min-height:480px;display:block;" scrolling="no" title="survey"></iframe>';
+  }
+  surveyModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSurveyModal() {
+  surveyModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('survey-modal-close').addEventListener('click', closeSurveyModal);
+surveyModal.addEventListener('click', e => { if (e.target === surveyModal) closeSurveyModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSurveyModal(); });
+
+document.querySelectorAll('a[href="#contact"]').forEach(el => {
+  el.addEventListener('click', e => { e.preventDefault(); openSurveyModal(); });
+});
 </script>
+
+<div id="survey-modal" role="dialog" aria-modal="true">
+  <div class="survey-modal-box">
+    <button class="survey-modal-close" id="survey-modal-close" aria-label="Fechar">✕</button>
+    <div id="survey-modal-frame"></div>
+  </div>
+</div>
+
+<script src="https://link.growave.com.br/js/form_embed.js"></script>
 </body>
 </html>
