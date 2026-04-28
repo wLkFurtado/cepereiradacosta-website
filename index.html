@@ -260,11 +260,10 @@ a { text-decoration: none; color: inherit; }
 #ccaa { padding: 120px 0; background: var(--navy-deep); }
 .ccaa-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "header visual" "body visual";
-  gap: 32px 80px;
-  align-items: start;
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "visual" "body";
+  gap: 32px;
+  max-width: 720px;
 }
 .ccaa-header { grid-area: header; }
 .ccaa-body   { grid-area: body; }
@@ -537,12 +536,7 @@ a { text-decoration: none; color: inherit; }
 
   /* CCAA */
   #ccaa { padding: 72px 0; }
-  .ccaa-grid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-    grid-template-areas: "header" "visual" "body";
-    gap: 24px;
-  }
+  .ccaa-grid { gap: 24px; max-width: 100%; }
   .ccaa-big { font-size: 48px; }
 
   /* Differentials */
