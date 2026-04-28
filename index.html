@@ -110,7 +110,8 @@ a { text-decoration: none; color: inherit; }
   background: radial-gradient(ellipse 70% 60% at 60% 50%, rgba(27,36,100,0.35) 0%, transparent 70%),
               radial-gradient(ellipse 40% 50% at 20% 80%, rgba(141,198,63,0.08) 0%, transparent 60%);
 }
-.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 440px; gap: 64px; align-items: center; }
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr; gap: 48px; max-width: 860px; }
+.hero-img img { height: 460px; }
 .hero-content { }
 .hero-img { border-radius: 16px; overflow: hidden; position: relative; }
 .hero-img img { width: 100%; height: 380px; object-fit: cover; border-radius: 16px; display: block; }
@@ -213,7 +214,7 @@ a { text-decoration: none; color: inherit; }
   background: radial-gradient(circle, rgba(141,198,63,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
-.netbil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.netbil-grid { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 860px; }
 .netbil-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .netbil-card {
   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
@@ -235,7 +236,7 @@ a { text-decoration: none; color: inherit; }
    CCAA
 ═══════════════════════════════════ */
 #ccaa { padding: 120px 0; background: var(--navy-deep); }
-.ccaa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.ccaa-grid { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 860px; }
 .ccaa-visual {
   background: linear-gradient(135deg, #1B2464 0%, #0f1540 100%);
   border-radius: 16px; padding: 48px 40px; text-align: center;
@@ -487,12 +488,10 @@ a { text-decoration: none; color: inherit; }
 
   /* Netbil */
   #netbil { padding: 72px 0; }
-  .netbil-grid { grid-template-columns: 1fr; gap: 40px; }
   .netbil-cards { grid-template-columns: 1fr 1fr; }
 
   /* CCAA */
   #ccaa { padding: 72px 0; }
-  .ccaa-grid { grid-template-columns: 1fr; gap: 40px; }
   .ccaa-big { font-size: 48px; }
 
   /* Differentials */
@@ -692,7 +691,7 @@ a { text-decoration: none; color: inherit; }
         </div>
       </div>
       <div class="reveal-right">
-        <div style="border-radius:12px;overflow:hidden;margin-bottom:16px;height:200px;">
+        <div style="border-radius:12px;overflow:hidden;margin-bottom:16px;height:320px;">
           <img src="https://mogpvkfbynertpyhejhw.supabase.co/storage/v1/object/public/imagens/foto-netbil.jpg" alt="Material Netbil" style="width:100%;height:100%;object-fit:cover;display:block;">
         </div>
         <div class="netbil-cards">
