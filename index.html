@@ -424,6 +424,93 @@ a { text-decoration: none; color: inherit; }
 .gallery-item.wide { grid-column: span 2; }
 .gallery-item.tall { grid-row: span 2; }
 
+/* ═══════════════════════════════════
+   RESPONSIVO — MOBILE
+═══════════════════════════════════ */
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+
+  /* Nav */
+  .nav-links { display: none; }
+  .nav-inner { height: 60px; }
+  .nav-logo img { height: 36px; }
+
+  /* Hero */
+  #hero { padding: 90px 0 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+  .hero-img { display: none; }
+  #hero h1 { font-size: clamp(28px, 8vw, 40px); }
+  .hero-sub { font-size: 15px; }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .hero-badges { gap: 10px; }
+  .hero-badge { flex: 1 1 calc(50% - 5px); }
+
+  /* Stats */
+  #stats { padding: 48px 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-number { font-size: 36px; }
+  .stat-cell { padding: 28px 16px; }
+
+  /* About */
+  #about { padding: 72px 0; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-photo { height: 280px; }
+  .about-float-card { right: 0; bottom: -20px; padding: 14px 18px; }
+  .about-float-card .big { font-size: 28px; }
+
+  /* Netbil */
+  #netbil { padding: 72px 0; }
+  .netbil-grid { grid-template-columns: 1fr; gap: 40px; }
+  .netbil-cards { grid-template-columns: 1fr 1fr; }
+
+  /* CCAA */
+  #ccaa { padding: 72px 0; }
+  .ccaa-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ccaa-big { font-size: 48px; }
+
+  /* Differentials */
+  #differentials { padding: 72px 0; }
+  .diff-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Gallery */
+  #gallery { padding: 72px 0; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; gap: 8px; }
+  .gallery-item.wide { grid-column: span 1; }
+  .gallery-item.tall { grid-row: span 1; }
+
+  /* Testimonials */
+  #testimonials { padding: 72px 0; }
+  .test-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* FAQ */
+  #faq { padding: 72px 0; }
+  .faq-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  /* Contact */
+  #contact { padding: 72px 0; }
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .map-embed { height: 220px; }
+
+  /* CTA Banner */
+  #cta-banner { padding: 64px 0; }
+  .cta-actions { flex-direction: column; align-items: center; }
+  .cta-actions .btn { width: 100%; max-width: 320px; justify-content: center; }
+
+  /* Footer */
+  #footer { padding: 48px 0 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+
+  /* Sections geral */
+  .section-title { font-size: clamp(24px, 6vw, 32px); }
+}
+
+@media (max-width: 480px) {
+  .netbil-cards { grid-template-columns: 1fr; }
+  .hero-badge { flex: 1 1 100%; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
 /* ── WhatsApp FAB ── */
 .wa-fab {
   position: fixed; bottom: 28px; right: 28px;
