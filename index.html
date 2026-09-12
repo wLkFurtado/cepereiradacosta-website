@@ -473,6 +473,9 @@ a { text-decoration: none; color: inherit; }
 
   /* Nav */
   .nav-inner { height: 60px; }
+  .bolsao-banner { margin-top: 60px; }
+  .bolsao-banner-inner { padding: 10px 16px; }
+  .bolsao-banner-text { font-size: 12px; }
   .nav-logo img { height: 36px; }
   .nav-links {
     display: none;
@@ -629,6 +632,25 @@ a { text-decoration: none; color: inherit; }
 }
 .survey-modal-close:hover { background: rgba(255,255,255,0.3); }
 .survey-modal-box iframe { width: 100%; min-height: 480px; border: none; display: block; border-radius: 16px; }
+
+/* ── BOLSÃO BANNER ── */
+.bolsao-banner { background: linear-gradient(90deg, var(--navy), #232f7a); border-bottom: 1px solid rgba(141,198,63,0.35); margin-top: 72px; }
+.bolsao-banner-inner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px 20px; padding: 10px 20px; text-align: center; }
+.bolsao-banner-text { font-size: 13px; color: #fff; font-weight: 600; line-height: 1.5; }
+.bolsao-banner-text strong { color: var(--green); }
+.bolsao-banner-close { background: none; border: none; color: rgba(255,255,255,0.55); font-size: 18px; cursor: pointer; line-height: 1; padding: 4px; }
+.bolsao-banner-close:hover { color: #fff; }
+
+/* ── BOLSÃO MODAL ── */
+#bolsao-modal { display: none; position: fixed; inset: 0; z-index: 9000; background: rgba(4,8,26,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 20px; }
+#bolsao-modal.open { display: flex; }
+.bolsao-modal-box { background: #fff; border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; position: relative; padding: 44px 32px 36px; text-align: center; }
+.bolsao-modal-box iframe { width: 100%; min-height: 480px; border: none; display: block; border-radius: 12px; margin-top: 8px; }
+.bolsao-icon { font-size: 40px; margin-bottom: 14px; }
+.bolsao-modal-box h3 { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 800; color: var(--navy); margin-bottom: 12px; line-height: 1.3; }
+.bolsao-modal-box p { font-size: 14px; color: #4b5563; line-height: 1.6; margin-bottom: 20px; }
+.bolsao-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 26px; }
+.bolsao-tags span { background: rgba(141,198,63,0.12); color: var(--green-dark); font-size: 12px; font-weight: 700; font-family: 'Montserrat', sans-serif; padding: 7px 14px; border-radius: 20px; }
 </style>
 </head>
 <body>
@@ -654,6 +676,15 @@ a { text-decoration: none; color: inherit; }
         <span></span><span></span><span></span>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- BOLSÃO BANNER -->
+<div class="bolsao-banner" id="bolsao-banner">
+  <div class="container bolsao-banner-inner">
+    <span class="bolsao-banner-text">🎓 <strong>Provão/Bolsão 2027</strong> — Vagas limitadas para bolsas de estudo. Concorra já!</span>
+    <button class="btn btn-green" id="bolsao-banner-btn" style="font-size:11px;padding:9px 20px;">Quero Participar</button>
+    <button class="bolsao-banner-close" id="bolsao-banner-close" aria-label="Fechar aviso">✕</button>
   </div>
 </div>
 
@@ -1230,10 +1261,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.getElementById('survey-modal-close').addEventListener('click', closeSurveyModal);
   surveyModal.addEventListener('click', e => { if (e.target === surveyModal) closeSurveyModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSurveyModal(); });
-
   document.querySelectorAll('a[href="#contact"]').forEach(el => {
     el.addEventListener('click', e => { e.preventDefault(); openSurveyModal(); });
+  });
+
+  // Bolsão 2027 — banner + modal
+  const bolsaoModal = document.getElementById('bolsao-modal');
+  const bolsaoInfo = document.getElementById('bolsao-info');
+  const bolsaoFrame = document.getElementById('bolsao-form-frame');
+
+  function openBolsaoModal() {
+    bolsaoInfo.hidden = false;
+    bolsaoFrame.hidden = true;
+    bolsaoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBolsaoModal() {
+    bolsaoModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('bolsao-modal-close').addEventListener('click', closeBolsaoModal);
+  bolsaoModal.addEventListener('click', e => { if (e.target === bolsaoModal) closeBolsaoModal(); });
+  document.getElementById('bolsao-banner-btn').addEventListener('click', openBolsaoModal);
+  document.getElementById('bolsao-form-btn').addEventListener('click', () => {
+    if (!bolsaoFrame.querySelector('iframe')) {
+      bolsaoFrame.innerHTML = '<iframe src="https://link.growave.com.br/widget/survey/F14WhMniYnT4OZgwzXEl" style="border:none;width:100%;min-height:480px;display:block;" scrolling="no" id="F14WhMniYnT4OZgwzXEl" title="survey" data-cookie-consent="true" data-cookie-consent-provider="auto"></iframe>';
+    }
+    bolsaoInfo.hidden = true;
+    bolsaoFrame.hidden = false;
+  });
+  document.getElementById('bolsao-banner-close').addEventListener('click', () => {
+    document.getElementById('bolsao-banner').style.display = 'none';
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeSurveyModal(); closeBolsaoModal(); }
   });
 });
 </script>
@@ -1242,6 +1304,24 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="survey-modal-box">
     <button class="survey-modal-close" id="survey-modal-close" aria-label="Fechar">✕</button>
     <div id="survey-modal-frame"></div>
+  </div>
+</div>
+
+<div id="bolsao-modal" role="dialog" aria-modal="true">
+  <div class="bolsao-modal-box">
+    <button class="survey-modal-close" id="bolsao-modal-close" aria-label="Fechar">✕</button>
+    <div id="bolsao-info">
+      <div class="bolsao-icon">🎓</div>
+      <h3>Provão/Bolsão 2027 – CEPC</h3>
+      <p>Uma oportunidade para conquistar uma bolsa de estudos para 2027!</p>
+      <div class="bolsao-tags">
+        <span>Vagas limitadas</span>
+        <span>4º e 5º ano do Ensino Fundamental I</span>
+        <span>6º ao 9º ano do Ensino Fundamental II</span>
+      </div>
+      <button class="btn btn-green" id="bolsao-form-btn">Quero Fazer a Prova</button>
+    </div>
+    <div id="bolsao-form-frame" hidden></div>
   </div>
 </div>
 
